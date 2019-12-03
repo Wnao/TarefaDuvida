@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Clima Spring Boot</title>
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"
+	rel="stylesheet" />
+</head>
+<body>
+	<div class="panel panel-default" style="margin: 10px">
+		<div class="panel-heading">
+			<h1 class="panel-title">Clima</h1>
+			<a href="/buscarPrev/cidade/1">carregar online</a>
+		</div>
+
+
+
+		<!-- Executar de forma assíncrona:
+		1. Buscar cidade por latitude e longitude.
+		2. Buscar cidade pelo seu nome.
+		3. Buscar cidades pelo seu nome, ignorando letras maiúsculas. -->
+
+		<!-- 
+		<form class="form-inline" method="post" th:object="${cidade}" th:action="@{/previsoes}" style="margin: 20px 0">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Cidade" th:field="*{nome}"/> -->
+		<!--  <input type="text" class="form-control" placeholder="Nota 1" th:field="*{nota1}"/> 
+				<input type="text" class="form-control" placeholder="Nota 2" th:field="*{nota2}" /> -->
+		<!--  <input type="text" class="form-control" placeholder="Média" th:field="*{mediaNotas}"/> -->
+		<!-- <button type="submit" class="btn btn-primary">Adicionar</button>
+			</div>
+		</form> -->
+		
+		<form class="form-inline" method="post" th:object="${cidade}" th:action="@{/cidades/salvar}" style="margin: 20px 0">
+			<div class="form-group">
+					<input type="text" class="form-control" placeholder="Cidade" th:field="*{nome}"/> 
+					<button type="submit" class="btn btn-primary">Buscar</button>
+			</div>
+		</form> 
+			
+		<div class="panel-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Cidade</th>
+						<th>Latitude</th>
+						<th>Longitude</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="cidade : ${cidades}">
+						<td th:text="${cidade.nome}"></td>
+						<td th:text="${cidade.latitude}"></td>
+						<td th:text="${cidade.longitude}"></td>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Semana</th>
+									<th>Data</th>
+									<th>Mínima</th>
+									<th>Máxima</th>
+									<th>Umidade</th>
+									<th>Descrição</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="clima : ${cidade.climas}">
+									<td th:text="${clima.semana.dia}"></td>
+									<td th:text="${clima.dataHora}"></td>
+									<td th:text="${clima.tempMin}"></td>
+									<td th:text="${clima.tempMax}"></td>
+									<td th:text="${clima.umidade}"></td>
+									<td th:text="${clima.descricao}"></td>
+									<td><img src="" th:src="${clima.icone}" /></td>
+								</tr>
+							</tbody>
+						</table>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
